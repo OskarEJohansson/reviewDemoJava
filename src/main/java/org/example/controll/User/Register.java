@@ -1,6 +1,6 @@
 package org.example.controll.User;
 
-import org.example.controll.App;
+import org.example.controll.ConnectToDatabase;
 import org.example.models.User;
 
 import java.sql.Connection;
@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 import static org.example.controll.User.PasswordHashing.checkPassword;
 
-public class Register extends App {
+public class Register extends ConnectToDatabase {
 
     public void registerUser() {
         Scanner sc = new Scanner(System.in);
@@ -34,7 +34,7 @@ public class Register extends App {
             String insertUserSQLStmt = "INSERT INTO users" +
                     "(userName, email, password)" +
                     "VALUES (?, ?, ?)";
-            try (Connection conn = connection();
+            try (Connection conn = connectToDb();
                  PreparedStatement statement = conn.prepareStatement(insertUserSQLStmt)) {
 
                 statement.setString(1, insertUser.getUserName());

@@ -1,6 +1,6 @@
 package org.example.controll.Bookshelf;
 
-import org.example.controll.App;
+import org.example.controll.ConnectToDatabase;
 import org.example.models.Book;
 
 import java.sql.Connection;
@@ -8,12 +8,12 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 
-public class Insert extends App {
+public class Insert extends ConnectToDatabase {
     public void insertBook(Book book) {
         String SQL = "INSERT INTO bookshelf(author,title,lang,score,review) "
                 + "VALUES(?,?,?,?,?)";
         ;
-        try (Connection conn = connection();
+        try (Connection conn = connectToDb();
              PreparedStatement statement = conn.prepareStatement(SQL)){
             {
                 statement.setString(1, book.getAuthor());

@@ -1,15 +1,15 @@
 package org.example.controll.Bookshelf;
 
-import org.example.controll.App;
+
+import org.example.controll.ConnectToDatabase;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.Scanner;
 
-public class Update extends App {
+public class Update extends ConnectToDatabase {
     public void updateBook() {
-        try (Connection connSelect = connection()) {
+        try (Connection connSelect = connectToDb()) {
             Retrieve book = new Retrieve();
             book.getBookshelf();
             String SQLSelect = "SELECT * FROM bookshelf WHERE id = ?";
@@ -20,21 +20,22 @@ public class Update extends App {
             int id = sc.nextInt();
             stmtSelect.setInt(1, id);
 
-            ResultSet rs = stmtSelect.executeQuery();
+            System.out.println("""
+                    1 - Update all
+                    2 - Update author
+                    3 - Update title
+                    4 - Update lang
+                    5 - Update score
+                    6 - Update review
+                    """);
 
-            System.out.println("1 - Update all" + '\n' +
-                    "2 - Update author" + '\n' +
-                    "3 - Update title" + '\n' +
-                    "4 - Update lang" + '\n' +
-                    "5 - Update score" + '\n' +
-                    "6 - Update review" + '\n');
-            System.out.println("Insert number of record parameter to update: ");
+            System.out.println("Insert index number to update: ");
             int updateChoice = sc.nextInt();
 
             switch (updateChoice) {
 
                 case 1:
-                    updateAll(sc, id);
+                    updateAll(sc);
                     break;
 
                 case 2:
@@ -64,17 +65,17 @@ public class Update extends App {
 
     }
 
-    private void updateAll(Scanner sc, int id) {
+    private void updateAll(Scanner sc) {
 
             String SQLUpdate = "UPDATE bookshelf " +
                     "SET author = ?, title = ?, lang = ?, score = ?, review = ? " +
                     "WHERE id = ?";
 
-            try (Connection connDelete = connection();
+            try (Connection connDelete = connectToDb();
                  PreparedStatement stmtUpdate = connDelete.prepareStatement(SQLUpdate)) {
 
                 System.out.println("Please confirm by entering book ID again: ");
-                id = sc.nextInt();
+                int id = sc.nextInt();
                 stmtUpdate.setInt(6, id);
 
                 System.out.println("Please enter Author: ");
@@ -109,7 +110,7 @@ public class Update extends App {
                 "SET author = ? " +
                 "WHERE id = ?";
 
-            try (Connection connDelete = connection();
+            try (Connection connDelete = connectToDb();
                  PreparedStatement stmtUpdate = connDelete.prepareStatement(SQLUpdate)) {
 
                 System.out.println("Please enter new author: ");
@@ -132,7 +133,7 @@ public class Update extends App {
                     "SET title = ? " +
                     "WHERE id = ?";
 
-            try (Connection connDelete = connection();
+            try (Connection connDelete = connectToDb();
                  PreparedStatement stmtUpdate = connDelete.prepareStatement(SQLUpdate)) {
 
                 System.out.println("Please enter new title: ");
@@ -154,7 +155,7 @@ public class Update extends App {
                     "SET lang = ? " +
                     "WHERE id = ?";
 
-            try (Connection connDelete = connection();
+            try (Connection connDelete = connectToDb();
                  PreparedStatement stmtUpdate = connDelete.prepareStatement(SQLUpdate)) {
 
                 System.out.println("Please enter new ang: ");
@@ -175,7 +176,7 @@ public class Update extends App {
                     "SET score = ? " +
                     "WHERE id = ?";
 
-            try (Connection connDelete = connection();
+            try (Connection connDelete = connectToDb();
                  PreparedStatement stmtUpdate = connDelete.prepareStatement(SQLUpdate)) {
 
                 System.out.println("Please enter new score: ");
@@ -196,7 +197,7 @@ public class Update extends App {
             String SQLUpdate = "UPDATE bookshelf " +
                     "SET review = ? " +
                     "WHERE id = ?";
-            try (Connection connDelete = connection();
+            try (Connection connDelete = connectToDb();
                  PreparedStatement stmtUpdate = connDelete.prepareStatement(SQLUpdate)) {
 
                 System.out.println("Please enter new score: ");

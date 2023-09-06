@@ -1,15 +1,15 @@
 package org.example.controll.Bookshelf;
-import org.example.controll.App;
+import org.example.controll.ConnectToDatabase;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Scanner;
 
-public class Delete extends App {
+public class Delete extends ConnectToDatabase {
 
     public void deleteBook() {
-        try (Connection connSelect = connection()) {
+        try (Connection connSelect = connectToDb()) {
             Retrieve book = new Retrieve();
             book.getBookshelf();
             String SQLSelect = "SELECT * FROM bookshelf WHERE id = ?";
@@ -24,7 +24,7 @@ public class Delete extends App {
 
             if (rs.next()) {
                 String SQLDelete = "DELETE FROM bookshelf WHERE id = ?";
-                try (Connection connDelete = connection();
+                try (Connection connDelete = connectToDb();
                      PreparedStatement stmtDelete = connDelete.prepareStatement(SQLDelete)) {
                     System.out.println("Please confirm by entering ID again: ");
                     id = sc.nextInt();

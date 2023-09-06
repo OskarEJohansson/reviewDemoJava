@@ -1,11 +1,11 @@
 package org.example.controll.Bookshelf;
 
-import org.example.controll.App;
+import org.example.controll.ConnectToDatabase;
 
 import java.sql.*;
 import java.util.Scanner;
 
-public class Retrieve extends App {
+public class Retrieve extends ConnectToDatabase {
     public void findBookByAuthor() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter author name: ");
@@ -14,7 +14,7 @@ public class Retrieve extends App {
                 "FROM bookshelf " +
                 "WHERE author = ?";
 
-        try (Connection conn = connection();
+        try (Connection conn = connectToDb();
              PreparedStatement stmt = conn.prepareStatement(SQL)) {
 
             stmt.setString(1, author);
@@ -36,7 +36,7 @@ public class Retrieve extends App {
         String SQL = "SELECT id, author, title, lang, score, review " +
                 "FROM bookshelf";
 
-        try (Connection conn = connection();
+        try (Connection conn = connectToDb();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(SQL)) {
             while(rs.next()){
